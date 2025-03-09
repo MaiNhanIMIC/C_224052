@@ -1,6 +1,12 @@
-#include <stdio.h>
+﻿#include <stdio.h>
+int Cong(int a, int b);
+
 
 void main()
 {
-	printf("Hello world \n");
+	int x = Cong(1, 2);
+	printf("Hello world, x: %d \n", x);
+	
 }
+
+

@@ -61,8 +61,23 @@ int TrangThaiFan(char* data)
 	char fan_state[16] = { 0 };
 
 	// B1:search tới "fan" : "
+	char tu_khoa[] = "\"fan\" : \"";
+	char* x = TimChuoi(data, tu_khoa);
+	x += SoLuongKyTu(tu_khoa);
+
 	// B2:lấy dữ liệu bỏ vào fan_state đến khi nào găp " thì ngừng lại
+	int dem = 0;
+	while (x[dem] != '"')
+	{
+		fan_state[dem] = x[dem];
+		dem++;
+	}
+
 	// B3:so sánh với "on" hoặc "off" để return kết quả là 1 hay là 0
+	if (TimChuoi(fan_state, "on") != 0)
+		return 1;
+	else
+		return 0;
 }
 
 void main()
@@ -71,6 +86,7 @@ void main()
 		"\"light\": \"on\","\
 		"\"fan\" : \"off\","\
 		"\"motor\" : \"off\"}";
+	TrangThaiFan(data);
 
 	printf("data: %s", data);
 

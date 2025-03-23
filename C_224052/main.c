@@ -49,11 +49,29 @@ char* TimChuoi(char* str, char* sub_str)
 	return 0;
 }
 
+// Chức nâng: Lấy trang thái của "fan" trong dữ liệu gửi về từ server
+// Input: 
+//	char* data - chuỗi dữ liệu dducc lấy về từ server
+// Output:
+//	0: tương ứng trạng thái "off"
+//	1: tương ứng trạng thái "on"
+int TrangThaiFan(char* data)
+{
+	// format data: HTTP1.1 200 OK{"light": "on","fan" : "off","motor" : "off"}
+	char fan_state[16] = { 0 };
+
+	// B1:search tới "fan" : "
+	// B2:lấy dữ liệu bỏ vào fan_state đến khi nào găp " thì ngừng lại
+	// B3:so sánh với "on" hoặc "off" để return kết quả là 1 hay là 0
+}
 
 void main()
 {
-	char str[] = "xin chao moi nguoi";
-	char sub_str[] = "chau";
+	char data[] = "HTTP1.1 200 OK{"\
+		"\"light\": \"on\","\
+		"\"fan\" : \"off\","\
+		"\"motor\" : \"off\"}";
 
-	char* x = TimChuoi(str, sub_str);
+	printf("data: %s", data);
+
 }

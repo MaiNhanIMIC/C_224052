@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
-
+#include <string.h>
+#include <malloc.h>
 int SoLuongKyTu(char* str)
 {
 	int sl = 0;
@@ -58,7 +59,7 @@ char* TimChuoi(char* str, char* sub_str)
 int TrangThaiFan(char* data)
 {
 	// format data: HTTP1.1 200 OK{"light": "on","fan" : "off","motor" : "off"}
-	char fan_state[16] = { 0 };
+	
 
 	// B1:search tới "fan" : "
 	char tu_khoa[] = "\"fan\" : \"";
@@ -69,25 +70,34 @@ int TrangThaiFan(char* data)
 	int dem = 0;
 	while (x[dem] != '"')
 	{
-		fan_state[dem] = x[dem];
 		dem++;
 	}
 
+	char* fan_state = malloc(dem + 1);
+
+	memset(fan_state, 0, dem + 1);
+
+	memcpy(fan_state, x, dem);
+
+
 	// B3:so sánh với "on" hoặc "off" để return kết quả là 1 hay là 0
 	if (TimChuoi(fan_state, "on") != 0)
+	{
+		free(fan_state);
 		return 1;
+	}
 	else
+	{
+		free(fan_state);
 		return 0;
+	}
 }
 
 void main()
 {
 	char data[] = "HTTP1.1 200 OK{"\
 		"\"light\": \"on\","\
-		"\"fan\" : \"off\","\
+		"\"fan\" : \"asdasdsad\","\
 		"\"motor\" : \"off\"}";
 	TrangThaiFan(data);
-
-	printf("data: %s", data);
-
 }

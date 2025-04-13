@@ -3,47 +3,36 @@
 #include <stdint.h>
 #include <string.h>
 #include <malloc.h>
+typedef struct
+{
+	int value;
+	void* previous_node;
+}node_t;
 
 typedef struct
 {
-	char bit_0 : 1;
-	char bit_1 : 1;
-	char bit_2 : 1;
-	char bit_3 : 1;
-	char bit_4 : 1;
-	char bit_5 : 1;
-	char bit_6 : 1;
-	char bit_7 : 1;
-} byte_t;
+	node_t* last_node;
+	int len;
+}linked_list_t;
 
-typedef struct
+
+void Add(linked_list_t* ll, int val)
 {
-	int x;
-	char y;
-} test_struct_t;
+	node_t* new_node = malloc(sizeof(node_t));
+	new_node->value = val;
 
-typedef union 
-{
-	struct
-	{
-		char bit_0 : 1;
-		char bit_1 : 1;
-		char bit_2 : 1;
-		char bit_3 : 1;
-		char bit_4 : 1;
-		char bit_5 : 1;
-		char bit_6 : 1;
-		char bit_7 : 1;
-	} byte;
-	unsigned char toan_bo_gia_tri;
-} test_union_t;
+	new_node->previous_node = ll->last_node;
+	ll->last_node = new_node;
+	ll->len++;
+}
 
+linked_list_t ll;
 void main()
 {
-	
-	test_union_t x = { 0 };
-	x.byte.bit_0 = 1;
-	x.byte.bit_2 = 1;
-	
-	int temp = x.toan_bo_gia_tri;
+	Add(&ll, 1);
+	Add(&ll, 2);
+	Add(&ll, 3);
+	Add(&ll, 4);
+
+
 }

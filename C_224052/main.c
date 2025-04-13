@@ -1,103 +1,83 @@
-﻿#include <stdio.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <malloc.h>
-int SoLuongKyTu(char* str)
+typedef enum
 {
-	int sl = 0;
-	while (str[sl] != 0)
-	{
-		sl++;
-	}
-	return sl;
-}
+	NAM,
+	NU,
+} gioi_tinh_t;
 
-// Chức nâng: dùng để tìm ký tự c trong chuỗi str
-// Input:
-//	char* chuoi - chuổi cần tìm
-//	char c - ký tự cần tìm trong chuổi str
-// Output: (char*) địa chỉ của ký tự c trong chuổi str
-char* TimKyTu(char* chuoi, char ky_tu)
+typedef enum
 {
-	int chieu_dai_chuoi = SoLuongKyTu(chuoi);
-	for (int i = 0; i < chieu_dai_chuoi; i++)
-	{
-		if (chuoi[i] == ky_tu)
-			return chuoi + i;
-	}
-	return 0;
-}
+	GIOI,
+	KHA,
+	TRUNG_BINH,
+	YEU,
+} xep_loai_t;
 
-// Chức nâng: dùng để tìm chuỗi subStr trong chuỗi str
-// Input:
-//	char* str - chuỗi cần tìm
-//	char* sub_str - chuỗi từ khóa cần tìm
-// Output: (char*) địa chỉ của chuổi sub_str trong str
-char* TimChuoi(char* str, char* sub_str)
+typedef struct
 {
-	int chieu_dai_str = SoLuongKyTu(str);
-	int chieu_dai_sub_str = SoLuongKyTu(sub_str);
-	for (int i = 0; i < chieu_dai_str; i++)
-	{
-		int j = 0;
-		for (j = 0; j < chieu_dai_sub_str; j++)
-		{
-			if (str[i + j] != sub_str[j])
-				break;
-		}
-		if (j == chieu_dai_sub_str)
-			return str + i;
-	}
-	return 0;
-}
-
-// Chức nâng: Lấy trang thái của "fan" trong dữ liệu gửi về từ server
-// Input: 
-//	char* data - chuỗi dữ liệu dducc lấy về từ server
-// Output:
-//	0: tương ứng trạng thái "off"
-//	1: tương ứng trạng thái "on"
-int TrangThaiFan(char* data)
+	char ten[30];
+	int tuoi;
+	gioi_tinh_t gioi_tinh;
+	float diem_toan;
+	float diem_van;
+	float diem_tb;
+	xep_loai_t xep_loai;
+}hocsinh_t;
+//chuc nang: nhap gia tri cho hoc sinh
+// input: khong co input
+//output: hocsinh_t da duoc nhap gia tri
+hocsinh_t nhapthongtin()
 {
-	// format data: HTTP1.1 200 OK{"light": "on","fan" : "off","motor" : "off"}
-	
-
-	// B1:search tới "fan" : "
-	char tu_khoa[] = "\"fan\" : \"";
-	char* x = TimChuoi(data, tu_khoa);
-	x += SoLuongKyTu(tu_khoa);
-
-	// B2:lấy dữ liệu bỏ vào fan_state đến khi nào găp " thì ngừng lại
-	int dem = 0;
-	while (x[dem] != '"')
+	hocsinh_t ketqua = { 0 };
+	printf("nhap ten: ");
+	scanf("%[^\n]", ketqua.ten);
+	printf("nhap tuoi: ");
+	scanf("%d", &ketqua.tuoi);
+	printf("gioi tinh (0: nam, 1: nu): ");
+	scanf("%d", &ketqua.gioi_tinh);
+	printf("nhap diem toan: ");
+	scanf("%f", &ketqua.diem_toan);
+	printf("nhap diem van: ");
+	scanf("%f", &ketqua.diem_van);
+	ketqua.diem_tb = (ketqua.diem_toan + ketqua.diem_van) / 2;
+	getc(stdin);
+	if (ketqua.diem_tb >= 8.0)
 	{
-		dem++;
+		ketqua.xep_loai = GIOI;
 	}
-
-	char* fan_state = malloc(dem + 1);
-
-	memset(fan_state, 0, dem + 1);
-
-	memcpy(fan_state, x, dem);
-
-
-	// B3:so sánh với "on" hoặc "off" để return kết quả là 1 hay là 0
-	if (TimChuoi(fan_state, "on") != 0)
+	else if (ketqua.diem_tb >= 6.5)
 	{
-		free(fan_state);
-		return 1;
+		ketqua.xep_loai = KHA;
+	}
+	else if (ketqua.diem_tb >= 5.0)
+	{
+		ketqua.xep_loai = TRUNG_BINH;
 	}
 	else
+		ketqua.xep_loai = YEU;
+	return ketqua;
+}
+
+hocsinh_t* nhapDanhSach(int n)
+{
+	hocsinh_t* danhsach = malloc(n * sizeof(hocsinh_t));
+	for (int i = 0; i < n; i++)
 	{
-		free(fan_state);
-		return 0;
+		danhsach[i] = nhapthongtin();
 	}
+	return danhsach;
 }
 
 void main()
 {
-	char data[] = "HTTP1.1 200 OK{"\
-		"\"light\": \"on\","\
-		"\"fan\" : \"asdasdsad\","\
-		"\"motor\" : \"off\"}";
-	TrangThaiFan(data);
+	hocsinh_t danhsach[3] = {
+		{.ten = "nguyen van a", .tuoi = 18, .gioi_tinh = NAM, .diem_toan = 8, .diem_van = 6, .diem_tb = 6, .xep_loai = TRUNG_BINH},
+		{.ten = "nguyen thi b", .tuoi = 18, .gioi_tinh = NU , .diem_toan = 9, .diem_van = 8, .diem_tb = 8, .xep_loai = GIOI},
+		{.ten = "nguyen van c", .tuoi = 18, .gioi_tinh = NAM, .diem_toan = 7, .diem_van = 8, .diem_tb = 8, .xep_loai = KHA},
+	};
+
 }

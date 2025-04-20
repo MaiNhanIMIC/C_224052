@@ -3,36 +3,55 @@
 #include <stdint.h>
 #include <string.h>
 #include <malloc.h>
-typedef struct
+#include <math.h>
+
+float fx(float x)
 {
-	int value;
-	void* previous_node;
-}node_t;
-
-typedef struct
-{
-	node_t* last_node;
-	int len;
-}linked_list_t;
-
-
-void Add(linked_list_t* ll, int val)
-{
-	node_t* new_node = malloc(sizeof(node_t));
-	new_node->value = val;
-
-	new_node->previous_node = ll->last_node;
-	ll->last_node = new_node;
-	ll->len++;
+	return x * x;
 }
 
-linked_list_t ll;
+float gx(float x)
+{
+	return 2 * x * x + x + 1;
+}
+
+float tx(float x)
+{
+	return 2 * sin(x) + 1;
+}
+
+float tinhTichPhan(float a, float b)
+{
+	float S = 0;
+	float h = (b - a) / 1000;
+	for (int i = 0; i < 1000; i++)
+	{
+		float db = fx(a + h * i);
+		float dl = fx(a + (i + 1) * h);
+		S += ((dl + db) / 2) * h;
+	}
+	return S;
+}
+
+typedef float (*ham_t)(int, char);
+
+float function(int x, char y)
+{
+	printf("Ham function da duoc chay (x = %d) ...\n", x);
+}
+
+
+void function_1()
+{
+	printf("Day la function_1 \n");
+}
+
+
 void main()
 {
-	Add(&ll, 1);
-	Add(&ll, 2);
-	Add(&ll, 3);
-	Add(&ll, 4);
+	ham_t fp;
+	fp = function;
+	fp(1, 2);
 
 
 }

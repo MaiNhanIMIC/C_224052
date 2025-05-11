@@ -24,13 +24,19 @@
     <ClCompile Include="hinh_hoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="phan_so.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="phan_so.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="toan.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hinh_hoc.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

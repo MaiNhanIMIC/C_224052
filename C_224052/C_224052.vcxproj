@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="hinh_hoc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="phan_so.cpp" />
     <ClCompile Include="toan.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hinh_hoc.h" />
+    <ClInclude Include="phan_so.h" />
     <ClInclude Include="toan.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
